@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="BB Care">
+<meta name="theme-color" content="#FFD6E7">
+<title>BB Care Tracker 🍼</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow-x:hidden}
+body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;background:#FFF8FC;color:#3D2040}
+:root{
+  --bg:#FFF8FC;
+  --pink:#FFD6E7;--pink-deep:#F0A0C0;--pink-text:#8B3A62;
+  --mint:#D4F5E9;--mint-deep:#7ECBB0;--mint-text:#1A6B52;
+  --peach:#FFE8D0;--peach-deep:#F5A878;--peach-text:#7A3D10;
+  --lav:#EDE0FF;--lav-deep:#B48FE8;--lav-text:#4A2880;
+  --sky:#D6EEFF;--sky-deep:#7BBFF5;--sky-text:#0A4A80;
+  --yel:#FFF5C8;--yel-deep:#F5D050;--yel-text:#6B4A00;
+  --card:#FFFFFF;--border:#F0D0E0;
+  --txt:#3D2040;--muted:#9080A0;
+  --radius:20px;--radiusLg:28px;
+}
+
+/* LOGIN */
+.login{display:flex;flex-direction:column;align-items:center;padding:40px 24px 32px;min-height:100vh;position:relative;overflow:hidden;background:var(--bg)}
+.login-deco1{width:130px;height:130px;background:var(--pink);top:-30px;right:-35px;position:absolute;border-radius:50%;opacity:.45}
+.login-deco2{width:90px;height:90px;background:var(--mint);bottom:70px;left:-25px;position:absolute;border-radius:50%;opacity:.4}
+.login-deco3{width:55px;height:55px;background:var(--lav);top:185px;left:22px;position:absolute;border-radius:50%;opacity:.35}
+.login-deco4{width:40px;height:40px;background:var(--peach);top:300px;right:30px;position:absolute;border-radius:50%;opacity:.35}
+.login-hero{font-size:92px;margin:24px 0 6px;line-height:1;z-index:1}
+.login-title{font-size:28px;font-weight:800;color:var(--txt);letter-spacing:-0.5px;text-align:center;z-index:1}
+.login-sub{font-size:15px;color:var(--muted);margin-top:8px;text-align:center;line-height:1.7;z-index:1}
+.login-stars{font-size:22px;letter-spacing:8px;margin:22px 0;z-index:1}
+.google-btn{display:flex;align-items:center;gap:12px;background:white;border:2.5px solid var(--pink-deep);border-radius:99px;padding:14px 30px;font-size:18px;font-weight:700;cursor:pointer;color:var(--txt);transition:background .15s,transform .1s;z-index:1;font-family:inherit}
+.google-btn:hover{background:var(--pink);transform:scale(1.02)}
+.google-btn:active{transform:scale(0.96)}
+.login-note{font-size:13px;color:var(--muted);margin-top:22px;text-align:center;line-height:1.8;z-index:1}
+
+/* ROLE */
+.role-screen{display:flex;flex-direction:column;align-items:center;padding:36px 24px 40px;min-height:100vh;position:relative;overflow:hidden;background:var(--bg)}
+.role-deco1{width:150px;height:150px;background:var(--lav);top:-45px;right:-45px;position:absolute;border-radius:50%;opacity:.35}
+.role-deco2{width:100px;height:100px;background:var(--mint);bottom:80px;left:-30px;position:absolute;border-radius:50%;opacity:.35}
+.role-deco3{width:60px;height:60px;background:var(--pink);top:200px;left:15px;position:absolute;border-radius:50%;opacity:.3}
+.role-hero{font-size:76px;margin-bottom:14px;line-height:1;z-index:1}
+.role-title{font-size:24px;font-weight:800;color:var(--txt);text-align:center;margin-bottom:6px;z-index:1}
+.role-sub{font-size:15px;color:var(--muted);text-align:center;margin-bottom:28px;z-index:1}
+.role-input-wrap{width:100%;max-width:340px;position:relative;margin-bottom:22px;z-index:1}
+.role-input{width:100%;border:2.5px solid var(--pink-deep);border-radius:99px;padding:0 58px 0 24px;height:62px;font-size:20px;font-weight:700;color:var(--txt);outline:none;background:white;transition:border-color .2s;font-family:inherit}
+.role-input:focus{border-color:var(--lav-deep)}
+.role-input::placeholder{color:#ccc;font-weight:400}
+.role-input-go{position:absolute;right:10px;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;background:var(--pink-deep);border:none;cursor:pointer;font-size:20px;display:flex;align-items:center;justify-content:center;color:white;transition:background .15s}
+.role-input-go:hover{background:var(--pink-text)}
+.role-divider{display:flex;align-items:center;gap:12px;width:100%;max-width:340px;margin-bottom:20px;z-index:1}
+.role-divider-line{flex:1;height:1.5px;background:var(--pink);border-radius:99px}
+.role-divider-txt{font-size:13px;color:var(--muted);white-space:nowrap}
+.role-chips{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;max-width:340px;z-index:1}
+.role-chip{border:2.5px solid var(--border);border-radius:99px;padding:11px 20px;font-size:17px;font-weight:700;cursor:pointer;background:white;color:var(--txt);display:flex;align-items:center;gap:8px;transition:background .15s,border-color .15s,transform .1s;font-family:inherit}
+.role-chip:hover{transform:scale(1.05)}
+.role-chip:active{transform:scale(0.96)}
+.chip-m{border-color:var(--pink-deep)}.chip-m:hover{background:var(--pink)}
+.chip-g{border-color:var(--lav-deep)}.chip-g:hover{background:var(--lav)}
+.chip-d{border-color:var(--sky-deep)}.chip-d:hover{background:var(--sky)}
+.chip-c{border-color:var(--mint-deep)}.chip-c:hover{background:var(--mint)}
+
+/* HEADER */
+.header{background:white;border-bottom:2px solid var(--pink);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.header-left{display:flex;align-items:center;gap:9px}
+.header-logo{font-size:26px;line-height:1}
+.header-name{font-size:18px;font-weight:800;color:var(--txt)}
+.header-right{display:flex;align-items:center;gap:8px}
+.header-role{font-size:13px;font-weight:700;background:var(--lav);color:var(--lav-text);padding:5px 13px;border-radius:99px}
+.badge-off{background:var(--peach);color:var(--peach-text);font-size:11px;font-weight:700;padding:4px 10px;border-radius:99px}
+.badge-on{background:var(--mint);color:var(--mint-text);font-size:11px;font-weight:700;padding:4px 10px;border-radius:99px}
+
+/* NAV */
+.nav{display:flex;background:white;border-bottom:2px solid var(--border);overflow-x:auto;position:sticky;top:54px;z-index:99}
+.nav::-webkit-scrollbar{display:none}
+.nav-btn{flex:1;min-width:64px;min-height:60px;border:none;background:transparent;font-size:11px;font-weight:700;color:var(--muted);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;transition:color .15s,background .15s;padding:6px 4px;font-family:inherit}
+.nav-btn.active{color:var(--pink-text);background:var(--pink)}
+.nav-ico{font-size:21px;line-height:1}
+
+/* CONTENT */
+.content{padding:16px 16px 100px}
+
+.sec-title{font-size:19px;font-weight:800;color:var(--txt);margin-bottom:15px;display:flex;align-items:center;gap:8px}
+
+/* CARDS */
+.ccard{background:white;border-radius:var(--radiusLg);border:2px solid var(--border);padding:18px;margin-bottom:14px}
+
+/* INPUTS */
+.ilabel{font-size:16px;font-weight:700;color:var(--txt);margin-bottom:7px;display:block}
+.ifield{width:100%;height:60px;border-radius:99px;border:2px solid var(--border);background:white;font-size:20px;padding:0 20px;color:var(--txt);outline:none;transition:border-color .2s;font-family:inherit;-webkit-appearance:none}
+.ifield:focus{border-color:var(--pink-deep)}
+.iselect{width:100%;height:60px;border-radius:99px;border:2px solid var(--border);background:white;font-size:18px;padding:0 20px;color:var(--txt);outline:none;cursor:pointer;font-family:inherit;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239080A0' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 20px center}
+.inote{width:100%;min-height:76px;border-radius:20px;border:2px solid var(--border);background:white;font-size:16px;padding:13px 18px;color:var(--txt);outline:none;resize:none;font-family:inherit;transition:border-color .2s}
+.inote:focus{border-color:var(--pink-deep)}
+input[type="time"].ifield{font-size:24px;letter-spacing:1px;font-weight:700}
+
+/* UNIT TOGGLE */
+.utoggle{display:flex;border-radius:99px;overflow:hidden;border:2px solid var(--border)}
+.ubtn{min-width:64px;min-height:44px;border:none;font-size:17px;font-weight:700;cursor:pointer;transition:background .15s;background:white;color:var(--muted);font-family:inherit}
+.ubtn.active{background:var(--pink);color:var(--pink-text)}
+
+/* BIG BTNS */
+.bbtn{width:100%;min-height:80px;border-radius:var(--radius);border:2.5px solid;font-size:20px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:transform .1s;font-family:inherit}
+.bbtn:active{transform:scale(0.96)}
+.bbtn-pink{background:var(--pink);border-color:var(--pink-deep);color:var(--pink-text)}.bbtn-pink:hover{background:var(--pink-deep);color:white}
+.bbtn-mint{background:var(--mint);border-color:var(--mint-deep);color:var(--mint-text)}.bbtn-mint:hover{background:var(--mint-deep);color:white}
+.bbtn-peach{background:var(--peach);border-color:var(--peach-deep);color:var(--peach-text)}.bbtn-peach:hover{background:var(--peach-deep);color:white}
+.bbtn-lav{background:var(--lav);border-color:var(--lav-deep);color:var(--lav-text)}.bbtn-lav:hover{background:var(--lav-deep);color:white}
+.bbtn-sky{background:var(--sky);border-color:var(--sky-deep);color:var(--sky-text)}.bbtn-sky:hover{background:var(--sky-deep);color:white}
+.bbtn-sm{min-height:64px;font-size:17px}
+
+/* DIAPER GRID */
+.diaper-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.diaper-btn{min-height:96px;border-radius:var(--radiusLg);border:2.5px solid;font-size:15px;font-weight:800;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;transition:transform .1s;font-family:inherit}
+.diaper-btn:active{transform:scale(0.94)}
+
+/* LOG ITEMS */
+.log-item{background:white;border-radius:var(--radius);border:2px solid var(--border);padding:13px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}
+.li-main{font-size:17px;font-weight:700;color:var(--txt)}
+.li-meta{font-size:13px;color:var(--muted);margin-top:3px}
+.li-right{font-size:13px;color:var(--muted);text-align:right;flex-shrink:0;margin-left:12px}
+
+/* STATS */
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.stat-card{border-radius:var(--radiusLg);padding:16px;display:flex;flex-direction:column;gap:4px;border:2px solid}
+.stat-label{font-size:12px;font-weight:800;margin-bottom:2px}
+.stat-val{font-size:26px;font-weight:800;color:var(--txt)}
+.stat-sub{font-size:12px;color:var(--muted)}
+
+/* DURATION CHIP */
+.dur-chip{display:inline-flex;align-items:center;gap:7px;background:var(--mint);color:var(--mint-text);border-radius:99px;padding:9px 20px;font-size:17px;font-weight:800}
+
+/* TOAST */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#3D2040;color:white;padding:13px 26px;border-radius:99px;font-size:15px;font-weight:700;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;border:2px solid var(--pink-deep);max-width:90vw}
+.toast.show{opacity:1}
+
+/* INSTALL BANNER */
+.install-banner{background:var(--lav);border:2px solid var(--lav-deep);border-radius:var(--radiusLg);padding:14px 16px;margin-bottom:14px;display:flex;align-items:center;gap:12px}
+.install-banner-txt{flex:1;font-size:14px;color:var(--lav-text);font-weight:600;line-height:1.5}
+.install-banner-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--lav-text);padding:0 4px}
+
+.row{display:flex;gap:12px}
+.row>*{flex:1;min-width:0}
+.mt8{margin-top:8px}
+.mt16{margin-top:16px}
+.mb8{margin-bottom:8px}
+.mb14{margin-bottom:14px}
+.ig{display:flex;flex-direction:column;gap:7px;margin-bottom:15px}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const $=id=>document.getElementById(id);
+const app=$('app');
+let state={screen:'login',role:null,user:null,tab:'feed',unit:'ml',logs:[],pendingSync:[],isOnline:navigator.onLine,sheetsUrl:'',hideBanner:false};
+
+function loadState(){try{const s=localStorage.getItem('bbcute_v1');if(s)state={...state,...JSON.parse(s)}}catch(e){}}
+function saveState(){try{localStorage.setItem('bbcute_v1',JSON.stringify(state))}catch(e){}}
+function showToast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500)}
+function fmtTime(d){return new Date(d).toLocaleTimeString('zh-HK',{hour:'2-digit',minute:'2-digit'})}
+function fmtDate(d){return new Date(d).toLocaleDateString('zh-HK',{month:'short',day:'numeric'})}
+
+function addLog(type,data){
+  const e={id:Date.now(),type,ts:Date.now(),by:state.role,...data};
+  state.logs.unshift(e);
+  if(!state.isOnline)state.pendingSync.push(e);
+  saveState();
+  if(state.isOnline)trySync(e);
+}
+async function trySync(e){
+  if(!state.sheetsUrl)return;
+  try{
+    await fetch(state.sheetsUrl,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(e)});
+    showToast('✓ 已同步 Google Sheets');
+  }catch(err){state.pendingSync.push(e);saveState()}
+}
+
+window.addEventListener('online',()=>{state.isOnline=true;if(state.pendingSync.length&&state.sheetsUrl){state.pendingSync.forEach(e=>trySync(e));state.pendingSync=[];saveState()}render()});
+window.addEventListener('offline',()=>{state.isOnline=false;render()});
+
+function render(){
+  if(state.screen==='login')renderLogin();
+  else if(state.screen==='role')renderRole();
+  else renderMain();
+}
+
+/* ── LOGIN ── */
+function renderLogin(){
+  app.innerHTML=`
+  <div class="login">
+    <div class="login-deco1"></div><div class="login-deco2"></div><div class="login-deco3"></div><div class="login-deco4"></div>
+    <div class="login-hero">🍼</div>
+    <div class="login-title">BB Care Tracker</div>
+    <div class="login-sub">寶寶護理記錄簿<br>記錄每一個珍貴時刻 ✨</div>
+    <div class="login-stars">🌸 🌟 🌸</div>
+    <button class="google-btn" onclick="googleLogin()">
+      <svg width="22" height="22" viewBox="0 0 24 24">
+        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/>
+        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+      </svg>
+      使用 Google 登入
+    </button>
+    <div class="login-note">安全登入 · 數據存入 Google Sheets<br>支援離線使用，回網後自動同步 🌸</div>
+  </div>`;
+}
+function googleLogin(){state.user={name:'用戶',email:'demo@gmail.com'};state.screen=state.role?'main':'role';saveState();render()}
+
+/* ── ROLE ── */
+function renderRole(){
+  app.innerHTML=`
+  <div class="role-screen">
+    <div class="role-deco1"></div><div class="role-deco2"></div><div class="role-deco3"></div>
+    <div class="role-hero">👶</div>
+    <div class="role-title">你是誰？</div>
+    <div class="role-sub">輸入名稱，或從下方快選 💕</div>
+    <div class="role-input-wrap">
+      <input class="role-input" id="roleInput" placeholder="輸入你的名字或暱稱" maxlength="20" autocomplete="off">
+      <button class="role-input-go" onclick="confirmRole()">→</button>
+    </div>
+    <div class="role-divider">
+      <div class="role-divider-line"></div>
+      <span class="role-divider-txt">快速選擇</span>
+      <div class="role-divider-line"></div>
+    </div>
+    <div class="role-chips">
+      <button class="role-chip chip-m" onclick="pickRole('媽媽')"><span style="font-size:22px">👩</span> 媽媽</button>
+      <button class="role-chip chip-g" onclick="pickRole('嫲嫲')"><span style="font-size:22px">👵</span> 嫲嫲</button>
+      <button class="role-chip chip-d" onclick="pickRole('爸爸')"><span style="font-size:22px">👨</span> 爸爸</button>
+      <button class="role-chip chip-c" onclick="focusInput()"><span style="font-size:22px">✏️</span> 自定名稱</button>
+    </div>
+  </div>`;
+  const inp=$('roleInput');
+  if(inp)inp.addEventListener('keydown',e=>{if(e.key==='Enter')confirmRole()});
+}
+function confirmRole(){const v=$('roleInput')?.value?.trim();if(!v){showToast('請輸入你的名字 💕');return}selectRole(v)}
+function pickRole(r){selectRole(r)}
+function focusInput(){$('roleInput')?.focus()}
+function selectRole(r){state.role=r;state.screen='main';saveState();render()}
+
+/* ── MAIN ── */
+function renderMain(){
+  const tabs=[{id:'feed',ico:'🍼',lbl:'餵奶'},{id:'sleep',ico:'😴',lbl:'睡眠'},{id:'diaper',ico:'🚼',lbl:'換片'},{id:'log',ico:'📋',lbl:'記錄'},{id:'settings',ico:'⚙️',lbl:'設定'}];
+  app.innerHTML=`
+    <div class="header">
+      <div class="header-left">
+        <span class="header-logo">🍼</span>
+        <span class="header-name">BB Care</span>
+      </div>
+      <div class="header-right">
+        <span class="header-role">${state.role}</span>
+        ${state.isOnline?(state.pendingSync.length?`<span class="badge-off">待同步${state.pendingSync.length}</span>`:'<span class="badge-on">✓ 同步</span>'):'<span class="badge-off">📵 離線</span>'}
+      </div>
+    </div>
+    <div class="nav">
+      ${tabs.map(t=>`<button class="nav-btn${state.tab===t.id?' active':''}" onclick="switchTab('${t.id}')"><span class="nav-ico">${t.ico}</span>${t.lbl}</button>`).join('')}
+    </div>
+    <div class="content" id="tc"></div>`;
+  renderTab();
+}
+function switchTab(t){state.tab=t;render()}
+
+function renderTab(){
+  const el=$('tc');if(!el)return;
+  if(state.tab==='feed')el.innerHTML=feedTab();
+  else if(state.tab==='sleep')el.innerHTML=sleepTab();
+  else if(state.tab==='diaper')el.innerHTML=diaperTab();
+  else if(state.tab==='log')el.innerHTML=logTab();
+  else if(state.tab==='settings')el.innerHTML=settingsTab();
+  if(state.tab==='sleep')updateDur();
+  if(state.tab==='feed'){const inp=$('feedAmt');if(inp)inp.addEventListener('input',updateConvert)}
+}
+
+/* ── FEED ── */
+function feedTab(){
+  return`
+    <div class="sec-title">🍼 餵奶記錄</div>
+    <div class="ccard">
+      <div class="ig">
+        <label class="ilabel">奶量</label>
+        <div class="row" style="align-items:center;gap:10px">
+          <input class="ifield" type="number" id="feedAmt" placeholder="${state.unit==='ml'?'120':'4.0'}" min="0" inputmode="decimal">
+          <div class="utoggle">
+            <button class="ubtn${state.unit==='ml'?' active':''}" onclick="setUnit('ml')">ml</button>
+            <button class="ubtn${state.unit==='oz'?' active':''}" onclick="setUnit('oz')">oz</button>
+          </div>
+        </div>
+        <div id="cvhint" style="font-size:13px;color:var(--muted);min-height:18px"></div>
+      </div>
+      <div class="ig">
+        <label class="ilabel">餵奶方式</label>
+        <select class="iselect" id="feedM">
+          <option value="母乳">🤱 母乳</option>
+          <option value="奶粉">🥛 奶粉</option>
+          <option value="混合">🔀 混合</option>
+        </select>
+      </div>
+      <div class="ig">
+        <label class="ilabel">備注（選填）</label>
+        <textarea class="inote" id="feedNote" placeholder="例：換左邊餵、吐奶了…"></textarea>
+      </div>
+      <button class="bbtn bbtn-pink" onclick="saveFeed()">
+        <span style="font-size:26px">✓</span> 記錄餵奶
+      </button>
+    </div>
+    <div style="font-size:15px;font-weight:800;color:var(--txt);margin-bottom:10px">最近記錄</div>
+    ${recentLogs('餵奶',3).map(logItemFeed).join('')||emptyLog()}`;
+}
+function logItemFeed(l){return`<div class="log-item"><div><div class="li-main">🍼 ${l.amount}${l.unit} ${l.method}</div><div class="li-meta">${l.note||'≈ '+l.amountMl+' ml'}</div></div><div class="li-right">${fmtTime(l.ts)}<br><span style="font-size:11px">${l.by}</span></div></div>`}
+function updateConvert(){const h=$('cvhint');if(!h)return;const v=parseFloat($('feedAmt')?.value);if(!v){h.textContent='';return}h.textContent=state.unit==='ml'?`≈ ${(v/29.5735).toFixed(1)} oz`:`≈ ${Math.round(v*29.5735)} ml`}
+function setUnit(u){state.unit=u;saveState();renderTab()}
+function saveFeed(){
+  const amt=parseFloat($('feedAmt')?.value);
+  if(!amt||amt<=0){showToast('請輸入奶量 💕');return}
+  const method=$('feedM')?.value||'母乳';
+  const note=$('feedNote')?.value||'';
+  const amtMl=state.unit==='ml'?amt:Math.round(amt*29.5735);
+  addLog('餵奶',{amount:amt,unit:state.unit,amountMl:amtMl,method,note});
+  showToast(`🍼 已記錄 ${amt}${state.unit} ${method}`);
+  $('feedAmt').value='';$('feedNote').value='';
+}
+
+/* ── SLEEP ── */
+function nowStr(){const d=new Date();return`${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`}
+function sleepTab(){
+  return`
+    <div class="sec-title">😴 睡眠記錄</div>
+    <div class="ccard">
+      <div class="row mb14">
+        <div class="ig" style="margin:0">
+          <label class="ilabel">🌙 入睡時間</label>
+          <input class="ifield" type="time" id="sleepS" value="${nowStr()}">
+        </div>
+        <div class="ig" style="margin:0">
+          <label class="ilabel">☀️ 醒來時間</label>
+          <input class="ifield" type="time" id="sleepE" value="${nowStr()}" oninput="updateDur()">
+        </div>
+      </div>
+      <div id="durChip" style="min-height:46px;margin-bottom:14px;display:flex;align-items:center"></div>
+      <button class="bbtn bbtn-lav" onclick="saveSleep()">
+        <span style="font-size:26px">✓</span> 記錄睡眠
+      </button>
+    </div>
+    <div style="font-size:15px;font-weight:800;color:var(--txt);margin-bottom:10px">最近記錄</div>
+    ${recentLogs('睡眠',3).map(l=>`<div class="log-item"><div><div class="li-main">😴 ${l.minutes} 分鐘</div><div class="li-meta">${l.startStr} → ${l.endStr}</div></div><div class="li-right">${fmtDate(l.ts)}<br><span style="font-size:11px">${l.by}</span></div></div>`).join('')||emptyLog()}`;
+}
+function updateDur(){
+  const chip=$('durChip');if(!chip)return;
+  const s=$('sleepS')?.value,e=$('sleepE')?.value;
+  if(!s||!e){chip.innerHTML='';return}
+  const[sh,sm]=s.split(':').map(Number),[eh,em]=e.split(':').map(Number);
+  let mins=(eh*60+em)-(sh*60+sm);if(mins<0)mins+=1440;
+  if(mins===0){chip.innerHTML='';return}
+  const h=Math.floor(mins/60),m=mins%60;
+  chip.innerHTML=`<span class="dur-chip">⏱ ${h>0?h+'小時 ':''}${m}分鐘</span>`;
+}
+function saveSleep(){
+  const s=$('sleepS')?.value,e=$('sleepE')?.value;
+  if(!s||!e){showToast('請填寫時間 💕');return}
+  const[sh,sm]=s.split(':').map(Number),[eh,em]=e.split(':').map(Number);
+  let mins=(eh*60+em)-(sh*60+sm);if(mins<0)mins+=1440;
+  if(mins===0){showToast('入睡和醒來時間相同！');return}
+  addLog('睡眠',{startStr:s,endStr:e,minutes:mins});
+  showToast(`😴 已記錄睡眠 ${mins} 分鐘`);renderTab();
+}
+
+/* ── DIAPER ── */
+function diaperTab(){
+  return`
+    <div class="sec-title">🚼 換片記錄</div>
+    <div class="diaper-grid">
+      <button class="diaper-btn" style="background:var(--sky);border-color:var(--sky-deep);color:var(--sky-text)" onclick="saveDiaper('淨濕')"><span style="font-size:36px">💧</span>淨濕</button>
+      <button class="diaper-btn" style="background:var(--peach);border-color:var(--peach-deep);color:var(--peach-text)" onclick="saveDiaper('大便')"><span style="font-size:36px">💩</span>大便</button>
+      <button class="diaper-btn" style="background:var(--lav);border-color:var(--lav-deep);color:var(--lav-text)" onclick="saveDiaper('兩者都有')"><span style="font-size:36px">🌊</span>兩者都有</button>
+      <button class="diaper-btn" style="background:var(--mint);border-color:var(--mint-deep);color:var(--mint-text)" onclick="saveDiaper('乾淨')"><span style="font-size:36px">✨</span>乾淨</button>
+    </div>
+    <div class="ig">
+      <label class="ilabel">備注（選填）</label>
+      <textarea class="inote" id="dNote" placeholder="例：顏色偏黃、有血絲…"></textarea>
+    </div>
+    <div style="font-size:15px;font-weight:800;color:var(--txt);margin-bottom:10px">最近記錄</div>
+    ${recentLogs('換片',3).map(l=>`<div class="log-item"><div><div class="li-main">${dico(l.poop)} ${l.poop}</div><div class="li-meta">${l.note||''}</div></div><div class="li-right">${fmtTime(l.ts)}<br><span style="font-size:11px">${l.by}</span></div></div>`).join('')||emptyLog()}`;
+}
+function dico(p){return{淨濕:'💧',大便:'💩',兩者都有:'🌊',乾淨:'✨'}[p]||'🚼'}
+function saveDiaper(poop){const note=$('dNote')?.value||'';addLog('換片',{poop,note});showToast(`${dico(poop)} 已記錄 ${poop}`);renderTab()}
+
+/* ── LOG ── */
+function logTab(){
+  const tod=state.logs.filter(l=>{const d=new Date(l.ts),n=new Date();return d.getDate()===n.getDate()&&d.getMonth()===n.getMonth()});
+  const fl=tod.filter(l=>l.type==='餵奶'),sl=tod.filter(l=>l.type==='睡眠'),dl=tod.filter(l=>l.type==='換片');
+  const tmL=fl.reduce((a,l)=>a+(l.amountMl||0),0);
+  const tsm=sl.reduce((a,l)=>a+(l.minutes||0),0);
+  return`
+    <div class="sec-title">📋 今日記錄</div>
+    <div class="stat-grid">
+      <div class="stat-card" style="background:var(--pink);border-color:var(--pink-deep)">
+        <div class="stat-label" style="color:var(--pink-text)">🍼 餵奶</div>
+        <div class="stat-val">${fl.length} 次</div>
+        <div class="stat-sub">${tmL} ml 共計</div>
+      </div>
+      <div class="stat-card" style="background:var(--lav);border-color:var(--lav-deep)">
+        <div class="stat-label" style="color:var(--lav-text)">😴 睡眠</div>
+        <div class="stat-val">${Math.floor(tsm/60)}h ${tsm%60}m</div>
+        <div class="stat-sub">${sl.length} 次</div>
+      </div>
+      <div class="stat-card" style="background:var(--sky);border-color:var(--sky-deep)">
+        <div class="stat-label" style="color:var(--sky-text)">🚼 換片</div>
+        <div class="stat-val">${dl.length} 次</div>
+        <div class="stat-sub">${dl.filter(l=>l.poop==='大便'||l.poop==='兩者都有').length} 次大便</div>
+      </div>
+      <div class="stat-card" style="background:var(--peach);border-color:var(--peach-deep)">
+        <div class="stat-label" style="color:var(--peach-text)">📌 待同步</div>
+        <div class="stat-val">${state.pendingSync.length}</div>
+        <div class="stat-sub">${state.isOnline?'網絡正常':'離線中'}</div>
+      </div>
+    </div>
+    <div style="font-size:15px;font-weight:800;color:var(--txt);margin-bottom:10px">所有記錄</div>
+    ${state.logs.slice(0,40).map(l=>`<div class="log-item"><div><div class="li-main">${lgico(l)} ${lgtitle(l)}</div><div class="li-meta">${lgsub(l)}</div></div><div class="li-right">${fmtTime(l.ts)}<br><span style="font-size:11px">${l.by}</span></div></div>`).join('')||emptyLog()}`;
+}
+function lgico(l){if(l.type==='換片')return dico(l.poop);return{餵奶:'🍼',睡眠:'😴'}[l.type]||'📝'}
+function lgtitle(l){if(l.type==='餵奶')return`${l.amount}${l.unit} ${l.method}`;if(l.type==='睡眠')return`${l.minutes}分鐘`;if(l.type==='換片')return l.poop;return''}
+function lgsub(l){if(l.type==='餵奶')return l.note||`≈ ${l.amountMl||0} ml`;if(l.type==='睡眠')return`${l.startStr} → ${l.endStr}`;if(l.type==='換片')return l.note||'';return''}
+
+/* ── SETTINGS ── */
+function settingsTab(){
+  return`
+    <div class="sec-title">⚙️ 設定</div>
+    ${!state.hideBanner?`
+    <div class="install-banner">
+      <div>📱</div>
+      <div class="install-banner-txt">想加到手機主畫面？<br>瀏覽器選單 → 加入主畫面，就像 App 一樣！</div>
+      <button class="install-banner-close" onclick="hideBanner()">✕</button>
+    </div>`:''}
+    <div class="ccard mb14">
+      <div class="ilabel mb8">Google Sheets 同步網址</div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:10px;line-height:1.6">貼上你的 Apps Script Web App URL，即可自動同步記錄到 Google Sheets</div>
+      <input class="ifield" id="sUrl" value="${state.sheetsUrl}" placeholder="https://script.google.com/macros/s/..." style="border-radius:14px;font-size:14px">
+      <button class="bbtn bbtn-mint bbtn-sm mt8" onclick="saveSheets()">儲存連結</button>
+    </div>
+    <div class="log-item"><span style="font-size:17px;font-weight:700">👤 目前身份</span><span style="font-weight:800;color:var(--pink-text);font-size:18px">${state.role}</span></div>
+    <div class="log-item"><span style="font-size:17px;font-weight:700">🌐 網絡狀態</span><span>${state.isOnline?'🟢 在線':'🔴 離線'}</span></div>
+    <div class="log-item"><span style="font-size:17px;font-weight:700">⏳ 待同步</span><span style="font-weight:700">${state.pendingSync.length} 筆</span></div>
+    ${state.pendingSync.length?`<button class="bbtn bbtn-sky bbtn-sm mt8 mb8" onclick="manualSync()">☁️ 立即同步</button>`:''}
+    <button class="bbtn bbtn-peach bbtn-sm mt8" onclick="changeRole()" style="margin-bottom:16px">🔄 切換身份</button>
+    <div style="padding:16px;background:var(--mint);border-radius:var(--radiusLg);font-size:14px;color:var(--mint-text);line-height:1.9;font-weight:600">
+      💡 如何設定 Google Sheets 同步？<br>
+      1. 建立 Google Sheets 表格<br>
+      2. 工具 → Apps Script → 貼入程式碼<br>
+      3. 部署為 Web App（執行身份：我）<br>
+      4. 複製 URL 貼到上方欄位 ✓
+    </div>`;
+}
+function hideBanner(){state.hideBanner=true;saveState();renderTab()}
+function saveSheets(){state.sheetsUrl=$('sUrl')?.value?.trim()||'';saveState();showToast('✓ 已儲存連結 🌸')}
+function changeRole(){state.role=null;state.screen='role';saveState();render()}
+function manualSync(){if(!state.sheetsUrl){showToast('請先設定 Sheets 連結');return}state.pendingSync.forEach(e=>trySync(e));state.pendingSync=[];saveState();showToast('🌸 正在同步…');setTimeout(render,600)}
+
+function recentLogs(type,n){return state.logs.filter(l=>l.type===type).slice(0,n)}
+function emptyLog(){return`<div style="text-align:center;padding:28px 16px;color:var(--muted);font-size:15px;font-weight:600">還沒有記錄喔 🌸</div>`}
+
+loadState();
+if(state.screen==='login'&&state.role)state.screen='main';
+render();
+</script>
+</body>
+</html>
